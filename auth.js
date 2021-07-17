@@ -3,12 +3,12 @@ let nope = process.env.AUTH_secret;
 
 class Authentication{
     createToken(payload){
-        let jwtOptions = { expiresIn: 60*60*12 };
-        let token = jwt.sign( payload, nope, jwtOptions );
+        //let jwtOptions = { expiresIn: 60*60*12 ,httpOnly:true};
+        let token = jwt.sign( payload, nope );
         return token;
     };
     
-    verifyToken(req, res, next){
+    /* verifyToken(req, res, next){
         try{
             const bearerHeader = req.headers['authorization'];
             if(typeof bearerHeader !== 'undefined') {
@@ -23,7 +23,24 @@ class Authentication{
             console.log(`error verifying token: ${req.headers.token}, ${err}`);
             return res.status(401).json({message:"please send proper token"});
         }
-    };
-}
+    }; */
+    verifyToken(req,res,next){
+            //console.log('hi')
+            const token=req.cookies.accesstoken
+              
+            const decoded=jwt.verify(token,nope)
+            const email=req.cookies.email
+            //console.log(token,email)  
+            if (email==decoded.email){
+                next();
+            }
+            else{
+                return res.status(404)
+            }
+            
+       
+        }
+    }
+
 
 module.exports = Authentication;

@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const razorpay = require('razorpay');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser');
 const app=express();
 require('dotenv/config');
 
@@ -11,9 +11,20 @@ require('dotenv/config');
 //client secret: XTqBwrT5Et51aVQk2bATuI09
 //api key: AIzaSyCuvstYlIKbhfvdKSSqJR5KUBVJvO1SbWM
 
-app.use(cors());
+app.use(cookieParser())
+app.use(cors({
+    origin:'http://localhost:3001',
+    credentials: true
+})); 
+
 app.use(function (_, res, next) {
-    res.setHeader("Content-Type", "application/json");
+    res.header("Content-Type", "application/json");
+    res.header('Content-Type', 'application/json;charset=UTF-8')
+    res.header('Access-Control-Allow-Credentials', true)
+    res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
     next();
 });
 app.use(bodyParser.json());

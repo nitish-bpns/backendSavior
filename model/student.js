@@ -23,7 +23,9 @@ let studentSchema = new mongoose.Schema({
     password: String,
     parent_id: String,
     photo: String,
-    verified: Boolean
+    verified: Boolean,
+    is_adopted: Boolean,
+    donoremail:String,
 });
 
 module.exports = mongoose.model('student', studentSchema);

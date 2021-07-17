@@ -2,6 +2,7 @@ const Donor = require("../model/donor");
 
 module.exports = async (req, res) => {
     try {
+        //console.log(req.headers)
         let email = req.headers.email;
         if (!email) {
           return res

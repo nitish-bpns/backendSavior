@@ -7,6 +7,8 @@ const upload = multer({
     dest: 'uploads/'
 });
 
+const payment= require('../model/payment')
+
 router.get('/',(req,res)=>{
     res.send('we are on home');
 });
@@ -49,4 +51,34 @@ router.post('/upload', upload.single('file_uploaded'), (req,res) => {
 router.post('/subscribe',require('./subscribeNewsletter'));
 router.get('/unsubscribe',require('./unsubscribeNewsletter'));
 
+router.get('/test',(req,res)=>{
+    const p=payment({
+        donor:'sanu',
+        student:'sonu',
+        payment: '50'
+    });
+    p.save()
+    res.send('hello')
+})
+router.get('/admin/approve',require('./approve'))
+router.get('/approvalrequest',require('./approvelrequest'))
+router.get('/admin/getapprovel',require('./getapprovels'))
+router.get('/logout',(req,res)=>{
+    res.clearCookie('accesstoken')
+    res.clearCookie('email')
+    res.status(200).json({'messege':'loggedout'})
+})
+router.get('/isloggedin',(req,res)=>{
+    console.log('hi',req.headers,req.cookies)
+    if ((req.headers.email!=0) && (req.headers.email!='undefined')){
+        res.status(200).json({'status':1 ,'messege':'yes'})
+    }
+    else{
+        res.status(200).json({'status':0 ,'messege':'NO'})
+    }
+    
+})
+router.get('/studentdata',require('./studentdata'))
+router.get('/checkapprovel',require('./checkapprovel'))
+router.get('/getmydonor',authentication.verifyToken,require('./donordata'))
 module.exports = router;

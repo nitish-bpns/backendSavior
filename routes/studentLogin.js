@@ -9,14 +9,14 @@ module.exports = async (req, res) => {
     let password = req.headers.password;
     if (!email || !password) {
       return res
-        .status(500)
-        .json({ message: "both Email & Password are required" });
+        .status(200)
+        .json({ 'status':0, 'messege': "wrong password"});
     }
     let student = await Student.findOne({ email: email });
     if(student){
       let isPasswordValid = await bcrypt.compare(password, student.password);
       if (!isPasswordValid) {
-        return res.status(401).json({ message: "wrong password" });
+        return res.status(200).json({ 'status':0, 'messege': "wrong password" });
       }
       else if(isPasswordValid){
         let payloadToCreateToken = {
@@ -28,12 +28,17 @@ module.exports = async (req, res) => {
           phone: student.phone,
         };
         let token = authentication.createToken(payloadToCreateToken);
+        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*12*1000, SameSite:null};
+        res.cookie('accesstoken',token,jwtOptions)
+        res.cookie('email',email,{maxAge:60*60*7*1000,encode:String})
+        //res.status(200)
+        return res.status(200).json({'status':1,'token':token})
         
-        return res.status(200).json({ token });
+      
       }
     }
     else{
-      return res.status(404).json({ message: "No User Found with the given email" });
+      return res.status(404).json({ 'status':"0",'messege': "No User Found with the given email" });
     }
   }catch (err) {
     console.log(

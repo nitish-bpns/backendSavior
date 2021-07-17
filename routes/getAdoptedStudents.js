@@ -3,6 +3,7 @@ const Donor = require("../model/donor");
 
 module.exports = async (req, res) => {
     try {
+        //console.log(req)
         let email = req.headers.email;
         let donor = await Donor.findOne({ email: email });
         let parent_id = donor._id;

@@ -42,11 +42,11 @@ module.exports = async (req, res) => {
                 email: payload.email,
                 phone: payload.phone,
               };
-              let token = auth.createToken(payloadToCreateToken)
+              //let token = auth.createToken(payloadToCreateToken)
               return res.status(200).send({
                   id: result._id,
                   message: 'donor added successfully',
-                  token: token
+                  status:1  
                 });
         }
     });

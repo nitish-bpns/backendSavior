@@ -7,8 +7,8 @@ module.exports = async (req, res) => {
         let studentEmail = req.headers.email;
         if (!studentEmail) {
           return res
-            .status(500)
-            .json({ message: "Email is required" });
+            .status(200)
+            .json({ 'ststus':0,'message': "Email is required" });
         }
         let student = await Student.findOne({ email: studentEmail });
         if(student){
@@ -32,11 +32,14 @@ module.exports = async (req, res) => {
                 aim: student.aim,
                 requirements: student.requirements,
                 email: student.email,
-                photo: student.photo
+                photo: student.photo,
+                is_adopted:student.is_adopted,
+                donoremail:student.donoremail,
+                id:student._id
             });
         }
         else{
-          return res.status(404).json({ message: "No User Found with the given email" });
+          return res.status(404).json({ 'status':1,'message': "No User Found with the given email" });
         }
       }catch (err) {
         console.log(
