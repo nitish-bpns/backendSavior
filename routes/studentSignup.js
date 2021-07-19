@@ -31,7 +31,8 @@ module.exports = async (req, res) => {
         'aim': payload.aim,
         'requirements': payload.requirements,
         'email': payload.email,
-        'verified': false
+        'verified': false,
+        'is_adopted':false,
     }
 
     let password = await bcrypt.hash(payload.password, salt);

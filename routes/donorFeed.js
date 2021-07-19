@@ -2,8 +2,9 @@ const Student = require("../model/student");
 
 module.exports = async (req, res) => {
     try {
-            await Student.find({},(getStudentsErr, studentsList) => {
-                if(getStudentsErr) {
+            await Student.find({'verified':true,'is_adopted':false},(getStudentsErr, studentsList) => {
+              //console.log(studentsList)  
+              if(getStudentsErr) {
                     res.status(500).json({message: 'Some glitch in getting the Students list.'})
                 }
                 var pageNo = parseInt(req.query.pageNo);
@@ -22,7 +23,7 @@ module.exports = async (req, res) => {
                     if(err) {
                       response = {"error" : true,"message" : "Error fetching data"}
                     }
-                    Student.find({city: req.headers.location},{},query,function(err,data) {
+                    Student.find({city: req.headers.location,'verified':true,'is_adopted':false},{},query,function(err,data) {
                 
                       if(err) {
                         response = {"error" : true,"message" : "Error fetching data"};
@@ -35,11 +36,11 @@ module.exports = async (req, res) => {
                   })
                 }
                 else{
-                  Student.count({},function(err,totalCount) {
+                  Student.count({'verified':true,'is_adopted':false},function(err,totalCount) {
                     if(err) {
                       response = {"error" : true,"message" : "Error fetching data"}
                     }
-                    Student.find({},{},query,function(err,data) {
+                    Student.find({'verified':true,'is_adopted':false},{},query,function(err,data) {
                 
                       if(err) {
                         response = {"error" : true,"message" : "Error fetching data"};

@@ -1,10 +1,9 @@
-const Student = require("../model/student");
-const Donor = require("../model/donor");
-const Approvel = require("../model/approvel");
+
+const Ramount=require('../model/ramount')
 
 module.exports = async (req,res)=>{
     try{
-        await Approvel.find({$or:[{'status':'pending'},{'status':'denied'}]},(err,data)=>{
+        await Ramount.find({},(err,data)=>{
             if (err){return res.status(200).json({'status':0,
             'messege':
             `error in fetching data contact devoloper`})}

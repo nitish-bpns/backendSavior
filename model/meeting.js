@@ -1,8 +1,9 @@
 const mongoose=require('mongoose');
 
 let meetingschema=mongoose.Schema({
-    donor:String,
-    student:String,
+    donoremail:String,
+    studentid:String,
+    meet_date:String,
     meet_time:String,
     link:String
 })

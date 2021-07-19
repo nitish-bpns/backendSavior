@@ -6,7 +6,9 @@ let approvelschema=mongoose.Schema({
     donoremail:String,
     status:String,
     studentname:String,
-    donorname:String
+    donorname:String,
+    meetingdate:String,
+    meetingtime:String,
 })
 
 module.exports=mongoose.model('approvel',approvelschema)

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let donorSchema = new mongoose.Schema({
-    id: String,
+    //id: String,
     name: String,
     age: Number,
     gender: String,

@@ -22,13 +22,12 @@ module.exports = async (req, res) => {
             },
             {useFindAndModify: false}
             );
-            return res.status(200).send({message: 'student added successfully'});
             }else{
-                return res.status(404).json({ message: "No donor Found with the given email" });
+                
               }
         }
         else{
-          return res.status(404).json({ message: "No student Found with the given email" });
+          
         }
       }catch (err) {
         console.log(

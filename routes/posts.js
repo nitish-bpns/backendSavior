@@ -3,6 +3,9 @@ const router = express.Router();
 const multer = require('multer');
 const Authentication = require('../auth');
 const authentication = new Authentication()
+
+ 
+
 const upload = multer({
     dest: 'uploads/'
 });
@@ -35,8 +38,8 @@ router.get('/donorFeed',require('./donorFeed'));
 router.get('/adoptedStudents',authentication.verifyToken,require('./getAdoptedStudents'));
 router.get('/studentProfile',authentication.verifyToken,require('./studentProfile'));
 
-//router.post('/payment',authentication.verifyToken, require('./payment'));
-//router.post('/verification',authentication.verifyToken, require('./paymentVerification'));
+router.post('/payment', require('./payment'));
+router.post('/verification', require('./paymentVerification'));
 router.get('/addStudent',authentication.verifyToken,require('./addStudent'));
 
 //index.html is temporary, connect with frontend
@@ -69,7 +72,7 @@ router.get('/logout',(req,res)=>{
     res.status(200).json({'messege':'loggedout'})
 })
 router.get('/isloggedin',(req,res)=>{
-    console.log('hi',req.headers,req.cookies)
+    //console.log('hi',req.headers,req.cookies)
     if ((req.headers.email!=0) && (req.headers.email!='undefined')){
         res.status(200).json({'status':1 ,'messege':'yes'})
     }
@@ -81,4 +84,11 @@ router.get('/isloggedin',(req,res)=>{
 router.get('/studentdata',require('./studentdata'))
 router.get('/checkapprovel',require('./checkapprovel'))
 router.get('/getmydonor',authentication.verifyToken,require('./donordata'))
+router.get('/isapproved',authentication.verifyToken,require('./is_approved'))
+router.get('/getamount',require('./getamount'))
+router.get('/setamount',require('./setamount'))
+router.get('/getamountlist',require('./getamountlist'))
+router.get('/chkusername',require('./chkusername'))
+router.get('/verifylis',require('./verifylis'))
+router.get('/verify',require('./verify'))
 module.exports = router;

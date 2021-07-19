@@ -5,14 +5,17 @@ const Auth = require('../auth');
 const auth = new Auth()
 
 module.exports = async (req, res) => {
-    let payload = req.body;
+    //console.log(req.body.body)
+    try{
+    //console.log(req.body.body)    
+    let payload = req.body.body;
     let findUserWithSimilarEmail = await Donor.findOne({email: req.body.email})
     if(findUserWithSimilarEmail){
-       return res.status(400).send({message: 'User with similar email already exists'})
+       return res.status(200).send({'message': 'User with similar email already exists','status':0})
     }
 
     const donorEntry = {
-        id: payload._id,
+        //id: payload._id,
         'name': payload.name,
         'age': payload.age,
         'gender': payload.gender,
@@ -20,34 +23,20 @@ module.exports = async (req, res) => {
         'city': payload.city,
         'pin': payload.pin,
         'phone': payload.phone,
-        'organisation': payload.organisation,
+        //'organisation': payload.organisation,
         'email': payload.email,
         'adoptionCount': 0,
         'browniePoints': 0
     }
-
+    //console.log(donorEntry)
     let password = await bcrypt.hash(payload.password, salt);
     donorEntry['password'] = password;
     
     let DonorRegistry = new Donor(donorEntry);
-    
-    DonorRegistry.save(async (registerErr, result) => {
-        if(registerErr) {
-            return res.status(500).send({message: 'Some glitch in adding the donor. Please try after sometime'});
-        }else{
-            let payloadToCreateToken = {
-                userType: "donor",
-                id: DonorRegistry._id,
-                name: payload.name,
-                email: payload.email,
-                phone: payload.phone,
-              };
-              //let token = auth.createToken(payloadToCreateToken)
-              return res.status(200).send({
-                  id: result._id,
-                  message: 'donor added successfully',
-                  status:1  
-                });
-        }
-    });
+    DonorRegistry.save()
+    return res.status(200).json({'status':1,'messege':'succesfully created'})
+}
+    catch{
+        res.status(200).json({'status':0,'messege':'something went wrong please try later' })
+    }
 }

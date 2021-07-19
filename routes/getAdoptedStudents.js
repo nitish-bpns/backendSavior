@@ -6,8 +6,8 @@ module.exports = async (req, res) => {
         //console.log(req)
         let email = req.headers.email;
         let donor = await Donor.findOne({ email: email });
-        let parent_id = donor._id;
-            await Student.find({parent_id: parent_id },(getErr, studentsList) => {
+        //let parent_id = donor._id;
+            await Student.find({'donoremail': email },(getErr, studentsList) => {
                 if(getErr) {
                     res.status(500).json({message: 'Some glitch in getting the adopted students list.'})
                 }
