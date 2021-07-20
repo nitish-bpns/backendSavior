@@ -2,16 +2,14 @@ const Donor = require("../model/donor");
 const Authentication = require("../auth");
 const authentication = new Authentication();
 const bcrypt = require("bcryptjs");
-
+const { admin } = require("googleapis/build/src/apis/admin");
+const Admin=require('../model/admin')
 module.exports = async (req, res) => {
   try {
     //console.log(req.headers)
-    let email = req.headers.email;
+    let email = req.headers.username;
     let password = req.headers.password;
-    var redirect=0
-    if ('redirect' in req.headers){
-      redirect=req.headers.redirect
-    }
+    
     
     //const redirect=0
     //console.log(redirect)
@@ -20,18 +18,18 @@ module.exports = async (req, res) => {
         .status(200)
         .json({ 'status':0 ,'messege': "both Email & Password are required" });
     }
-    let donor = await Donor.findOne({ email: email });
+    let donor = await Admin.findOne({ username: email });
     if(donor){
-      let isPasswordValid = await bcrypt.compare(password, donor.password);
-      if (!isPasswordValid) {
+      
+      if (donor.password!=password) {
         return res.status(200).json({ 'status':0, 'messege': "wrong password" });
       }
-      else if(isPasswordValid){
+      else {
         let payloadToCreateToken = {
-          userType: "donor",
+          userType: "admin",
           id: donor._id,
           name: donor.name,
-          email: donor.email,
+          email: donor.username,
           phone: donor.phone,
         };
         let token = authentication.createToken(payloadToCreateToken);
@@ -43,8 +41,7 @@ module.exports = async (req, res) => {
         res.cookie('accesstoken',token,jwtOptions)
         res.cookie('email',email,{maxAge:60*60*7*1000,encode:String})
         res.status(200)
-  
-        return res.status(200).json({'status':1,'redirect':redirect,'token':token})
+        return res.status(200).json({'status':1,'token':token})
       }
     }
     else{
@@ -52,7 +49,7 @@ module.exports = async (req, res) => {
     }
   }catch (err) {
     console.log(
-      `err creating token for donor `,
+      `err creating token for admin`,
       err
     );
   }

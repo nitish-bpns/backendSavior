@@ -3,12 +3,31 @@ const router = express.Router();
 const multer = require('multer');
 const Authentication = require('../auth');
 const authentication = new Authentication()
-
- 
+const debug = require('debug')('myapp:server');
+const path = require('path'); 
 
 const upload = multer({
     dest: 'uploads/'
 });
+
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './images/students')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    }
+});
+const uploadimage = multer({ storage: storage });
+router.post('/imageupload',authentication.verifytokenadmin, uploadimage.single('file'), function(req,res) {
+    debug(req.file);
+    var link='http://'+req.hostname +':3000/' + req.file.path
+    //return res.send(req.file);
+    console.log(link)
+    res.status(200).json({'status':1,'link':link})
+})
+//will be using this for uplading
+
 
 const payment= require('../model/payment')
 
@@ -63,9 +82,9 @@ router.get('/test',(req,res)=>{
     p.save()
     res.send('hello')
 })
-router.get('/admin/approve',require('./approve'))
+router.get('/admin/approve',authentication.verifytokenadmin,require('./approve'))
 router.get('/approvalrequest',require('./approvelrequest'))
-router.get('/admin/getapprovel',require('./getapprovels'))
+router.get('/admin/getapprovel',authentication.verifytokenadmin,require('./getapprovels'))
 router.get('/logout',(req,res)=>{
     res.clearCookie('accesstoken')
     res.clearCookie('email')
@@ -86,9 +105,13 @@ router.get('/checkapprovel',require('./checkapprovel'))
 router.get('/getmydonor',authentication.verifyToken,require('./donordata'))
 router.get('/isapproved',authentication.verifyToken,require('./is_approved'))
 router.get('/getamount',require('./getamount'))
-router.get('/setamount',require('./setamount'))
-router.get('/getamountlist',require('./getamountlist'))
+router.get('/setamount',authentication.verifytokenadmin,require('./setamount'))
+router.get('/getamountlist',authentication.verifytokenadmin,require('./getamountlist'))
 router.get('/chkusername',require('./chkusername'))
-router.get('/verifylis',require('./verifylis'))
-router.get('/verify',require('./verify'))
+router.get('/verifylis',authentication.verifytokenadmin,require('./verifylis'))
+router.get('/verify',authentication.verifytokenadmin,require('./verify'))
+router.get('/admin/studentdata',authentication.verifytokenadmin,require('./adminstudentdata'))
+router.get('/admin/login',require('./adminlogin'))
+router.post('/admin/editdata',authentication.verifytokenadmin,require('./editstudentdata'))
+router.post('/admin/changepasswordstd',authentication.verifytokenadmin,require('./changstdpswd'))
 module.exports = router;

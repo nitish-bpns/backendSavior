@@ -14,7 +14,7 @@ module.exports=async (req,res)=>{
             item.verified=true
             item.save()
         }
-        return response.status(200).json({'status':1,'students':studentlis})
+        return res.status(200).json({'status':1,'messege':'success'})
     })
 }catch(err){
     return res.status(404)

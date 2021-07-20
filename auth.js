@@ -40,6 +40,22 @@ class Authentication{
             
        
         }
+    verifytokenadmin(req,res,next){
+        const token=req.cookies.accesstoken
+              
+            const decoded=jwt.verify(token,nope)
+            const email=req.cookies.email
+            //console.log(token,email)
+            //console.log(decoded)  
+            if (email==decoded.email && decoded.userType=="admin"){
+                next();
+            }
+            else{
+                return res.status(404)
+            }
+    }
+    
+    
     }
 
 
