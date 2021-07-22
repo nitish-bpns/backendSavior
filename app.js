@@ -14,7 +14,7 @@ require('dotenv/config');
 
 app.use(cookieParser())
 app.use(cors({
-    origin:origin,
+    origin:'http://edopt-v1.herokuapp.com'
     credentials: true
 })); 
 
