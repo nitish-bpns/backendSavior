@@ -41,7 +41,8 @@ module.exports = async (req, res) => {
 
         //console.log(req.headers)
         res.cookie('accesstoken',token,jwtOptions)
-        res.cookie('email',email,{maxAge:60*60*100*1000,encode:String,sameSite: 'none', secure: false});
+        res.cookie('email',email,{maxAge:60*60*100*1000,encode:String,sameSite: 'none', secure: true});
+        //res.setHeader("Set-Cookie", "email"=email; Secure; SameSite=None; Path=/; Max-Age=60*60*100*1000;");
         res.status(200)
   
         return res.status(200).json({'status':1,'redirect':redirect,'token':token,'email':email})
