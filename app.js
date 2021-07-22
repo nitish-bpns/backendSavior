@@ -15,14 +15,15 @@ require('dotenv/config');
 app.use(cookieParser())
 app.use(cors({
     origin:'http://edopt-v1.herokuapp.com',
-    credentials: true
+    credentials: true,
+    
 })); 
 
 app.use(function (_, res, next) {
     res.header("Content-Type", "application/json");
     res.header('Content-Type', 'application/json;charset=UTF-8')
     res.header('Access-Control-Allow-Credentials', true)
-    res.header('Access-Control-Allow-Origin' , 'http://edopt-v1.herokuapp.com')
+    res.header('Access-Control-Allow-Origin' ,'http://edopt-v1.herokuapp.com')
     res.header(
     'Origin, X-Requested-With, Content-Type, Accept'
   )
