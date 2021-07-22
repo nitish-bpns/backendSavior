@@ -17,9 +17,10 @@ module.exports = async (req, res) => {
                 res.status(200).json(marksList)
             });
       }catch (err) {
-        console.log(
-          `err `,
-          err
-        );
+        //console.log(
+         // `err `,
+         // err
+        //);
+        return res.status(500)
       }
 };

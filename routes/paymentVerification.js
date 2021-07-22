@@ -56,7 +56,7 @@ module.exports = async (req, res) => {
         student.save()
     }
     else{
-        console.log('error')
+        return res.status(500)
     }    
     return res.status(200).json({'status':1,'messege':'payment successful'})   
 }

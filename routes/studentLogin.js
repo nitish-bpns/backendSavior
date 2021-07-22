@@ -41,9 +41,10 @@ module.exports = async (req, res) => {
       return res.status(404).json({ 'status':"0",'messege': "No User Found with the given email" });
     }
   }catch (err) {
-    console.log(
-      `err creating token for student `,
-      err
-    );
+    //console.log(
+      //`err creating token for student `,
+      //err
+   // );
+   return res.status(500)
   }
 };

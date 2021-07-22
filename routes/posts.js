@@ -1,3 +1,6 @@
+const Student = require("../model/student");
+
+
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -5,6 +8,7 @@ const Authentication = require('../auth');
 const authentication = new Authentication()
 const debug = require('debug')('myapp:server');
 const path = require('path'); 
+var fs = require('fs');
 
 const upload = multer({
     dest: 'uploads/'
@@ -19,17 +23,35 @@ var storage = multer.diskStorage({
     }
 });
 const uploadimage = multer({ storage: storage });
-router.post('/imageupload',authentication.verifytokenadmin, uploadimage.single('file'), function(req,res) {
+router.post('/imageupload',authentication.verifytokenadmin, uploadimage.single('file'), async (req,res)=> {
+    try{
     debug(req.file);
-    var link='http://'+req.hostname +':3000/' + req.file.path
-    //return res.send(req.file);
-    console.log(link)
-    res.status(200).json({'status':1,'link':link})
+    var path=req.file.path
+    var id=req.headers.id
+    var student= await Student.findById(id)
+    student.photo.data = await Buffer(fs.readFileSync(req.file.path) ,'base64');
+    student.photo.contentType = 'image/jpg';
+    student.save()
+
+    fs.unlink(path, (err) => {
+        if (err) {
+          //console.error(err)
+        }
+      
+        //file removed
+      })
+    
+    res.status(200).json({'status':1,'path':path})
+    }catch(err){
+        //console.log(err)
+        res.status(500)
+    }
 })
 //will be using this for uplading
 
 
-const payment= require('../model/payment')
+const payment= require('../model/payment');
+const student = require('../model/student');
 
 router.get('/',(req,res)=>{
     res.send('we are on home');
@@ -113,5 +135,6 @@ router.get('/verify',authentication.verifytokenadmin,require('./verify'))
 router.get('/admin/studentdata',authentication.verifytokenadmin,require('./adminstudentdata'))
 router.get('/admin/login',require('./adminlogin'))
 router.post('/admin/editdata',authentication.verifytokenadmin,require('./editstudentdata'))
-router.post('/admin/changepasswordstd',authentication.verifytokenadmin,require('./changstdpswd'))
+router.get('/admin/changepasswordstd',authentication.verifytokenadmin,require('./changstdpswd'))
+router.get('/featured',require('./feauturedstd'))
 module.exports = router;

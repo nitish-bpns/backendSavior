@@ -54,9 +54,10 @@ module.exports = async (req, res) => {
                 }
             });
       }catch (err) {
-        console.log(
-          `err `,
-          err
-        );
+        //console.log(
+         // `err `,
+         // err
+         return res.status(500)
+        //);
       }
 };

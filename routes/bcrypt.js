@@ -9,7 +9,7 @@ let generateHash = async(pass)=>{
 
 let comparePassword = async(actual)=>{
     let what = await bcrypt.compare(actual,password);
-    console.log(what);
+    //console.log(what);
 }
 
-generateHash('tempPassword').then(console.log).catch(console.log);
+generateHash('tempPassword').then().catch();

@@ -35,7 +35,7 @@ module.exports= async (req,res)=>{
         })
     }
     catch(err){
-        console.log('err',err)
-       res.send('error')
+        //console.log('err',err)
+       res.status(500)
     }
 }

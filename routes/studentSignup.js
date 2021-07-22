@@ -3,8 +3,10 @@ const bcrypt = require('bcryptjs');
 const salt = bcrypt.genSaltSync(10);
 const Auth = require('../auth');
 const auth = new Auth()
-
+const path = require('path'); 
+var fs = require('fs');
 module.exports = async (req, res) => {
+    try{
     let payload = req.body;
     let findUserWithSimilarEmail = await Student.findOne({email: req.body.email})
     if(findUserWithSimilarEmail){
@@ -33,6 +35,10 @@ module.exports = async (req, res) => {
         'email': payload.email,
         'verified': false,
         'is_adopted':false,
+        'photo':{
+            'data':'',
+            'contentType':'image/jpg'
+        }
     }
 
     let password = await bcrypt.hash(payload.password, salt);
@@ -60,4 +66,9 @@ module.exports = async (req, res) => {
                 });
         }
     });
+}
+catch(err){
+    console.log(err)
+    res.status(500)
+}
 }

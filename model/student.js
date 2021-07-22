@@ -21,7 +21,7 @@ let studentSchema = new mongoose.Schema({
     requirements: String,
     email: String,
     password: String,
-    photo: String,
+    photo: { data: Buffer, contentType: String },
     verified: Boolean,
     is_adopted: Boolean,
     donoremail:String,

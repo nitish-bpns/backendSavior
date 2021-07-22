@@ -29,9 +29,9 @@ module.exports = async (req, res) => {
           return res.status(404).json({ message: "No User Found with the given email" });
         }
       }catch (err) {
-        console.log(
-          `err `,
-          err
-        );
+        //console.log(
+         // `err `,
+         // err
+        //);
       }
 };
