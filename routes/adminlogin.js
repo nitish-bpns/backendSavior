@@ -33,13 +33,13 @@ module.exports = async (req, res) => {
           phone: donor.phone,
         };
         let token = authentication.createToken(payloadToCreateToken);
-        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*12*1000};
+        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*100*1000,sameSite: 'none', secure: true};
         
         //return res.status(200).json({ token });
 
         //console.log(req.headers)
         res.cookie('accesstoken',token,jwtOptions)
-        res.cookie('email',email,{maxAge:60*60*7*1000,encode:String})
+        res.cookie('email',email,{maxAge:60*60*100*1000,encode:String,sameSite: 'none', secure: true},)
         res.status(200)
         return res.status(200).json({'status':1,'token':token,'email':email})
       }
