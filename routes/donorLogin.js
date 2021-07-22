@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
 
         //console.log(req.headers)
         res.cookie('accesstoken',token,jwtOptions)
-        res.cookie('email',email,{maxAge:60*60*7*1000,encode:String})
+        res.cookie('email',email,{maxAge:60*60*7*1000,encode:String,SameSite:'none'})
         res.status(200)
   
         return res.status(200).json({'status':1,'redirect':redirect,'token':token})
