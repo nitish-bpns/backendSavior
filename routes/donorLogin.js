@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
           phone: donor.phone,
         };
         let token = authentication.createToken(payloadToCreateToken);
-        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*100*1000,sameSite: 'none', secure: false};
+        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*100*1000,sameSite: 'none', secure: true};
         
         //return res.status(200).json({ token });
 
