@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
           phone: donor.phone,
         };
         let token = authentication.createToken(payloadToCreateToken);
-        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*12*1000, SameSite:null};
+        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*12*1000, SameSite:'none'};
         
         //return res.status(200).json({ token });
 
