@@ -8,7 +8,7 @@ module.exports=async (req,res)=>{
     res.status(200).json({'st1':st1,'st2':st2,'st3':st3})
     }
     catch(err){
-        console.log(err)
+        //console.log(err)
         return res.status(404)
     }
 }

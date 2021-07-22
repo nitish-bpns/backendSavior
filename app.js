@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const app=express();
+const origin=process.env.ORIGIN
 require('dotenv/config');
 
 //client id: 294198125435-ar7kbgpfhi93ht06838p6puvqo16hcuq.apps.googleusercontent.com
@@ -13,7 +14,7 @@ require('dotenv/config');
 
 app.use(cookieParser())
 app.use(cors({
-    origin:'http://localhost:3001',
+    origin:origin,
     credentials: true
 })); 
 

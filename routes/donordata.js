@@ -29,7 +29,7 @@ module.exports= async(req,res)=>{
     
     }
     catch(err){
-        console.log(err)
+        //console.log(err)
         return res.status(200).json({'status':0,'messege':'internal server error!! contact dev'})
     }
 

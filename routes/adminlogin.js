@@ -48,9 +48,9 @@ module.exports = async (req, res) => {
       return res.status(200).json({'status':"0",'messege': "No User Found with the given email" });
     }
   }catch (err) {
-    console.log(
-      `err creating token for admin`,
-      err
-    );
+   // console.log(
+     // `err creating token for admin`,
+     // err
+   // );
   }
 };
