@@ -28,11 +28,11 @@ module.exports = async (req, res) => {
           phone: student.phone,
         };
         let token = authentication.createToken(payloadToCreateToken);
-        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*12*1000, sameSite: 'none'};
+        let jwtOptions = { expiresIn: 60*60*12*1000 ,httpOnly:true, maxAge:60*60*12*1000};
         res.cookie('accesstoken',token,jwtOptions)
         res.cookie('email',email,{maxAge:60*60*7*1000,encode:String})
         //res.status(200)
-        return res.status(200).json({'status':1,'token':token})
+        return res.status(200).json({'status':1,'token':token,'email':email})
         
       
       }
